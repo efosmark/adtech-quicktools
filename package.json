@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Tools for modern AdTech proof-of-concepts.",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "author": "efosmark",
   "license": "ISC",
@@ -15,9 +16,14 @@
     "ws": "^8.18.1"
   },
   "files": [
+    "dist",
     "src"
   ],
   "typings": "src/types",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/efosmark/adtech-quicktools.git"
+  },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
