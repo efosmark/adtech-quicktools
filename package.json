@@ -14,6 +14,10 @@
     "ts-jest": "^29.2.5",
     "ws": "^8.18.1"
   },
+  "files": [
+    "src"
+  ],
+  "typings": "src/types",
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
