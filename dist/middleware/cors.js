@@ -17,3 +17,4 @@ var enableCORS = function (req, res, next) {
     next();
 };
 exports.enableCORS = enableCORS;
+exports.default = { enableCORS: exports.enableCORS };

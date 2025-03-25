@@ -36,3 +36,7 @@ function onRegisterTrigger(handler, opts) {
     };
 }
 exports.onRegisterTrigger = onRegisterTrigger;
+exports.default = {
+    onRegisterSource: onRegisterSource,
+    onRegisterTrigger: onRegisterTrigger
+};

@@ -15,3 +15,5 @@ export const enableCORS = (req: Request, res: Response, next: NextFunction) => {
     }
     next();
 }
+
+export default { enableCORS };

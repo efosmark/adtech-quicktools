@@ -34,3 +34,6 @@ var createPolicy = function (policy) {
     };
 };
 exports.createPolicy = createPolicy;
+exports.default = {
+    createPolicy: exports.createPolicy
+};

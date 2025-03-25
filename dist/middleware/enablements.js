@@ -13,3 +13,4 @@ var allowAdAuction = function (req, res, next) {
     next();
 };
 exports.allowAdAuction = allowAdAuction;
+exports.default = { allowAdAuction: exports.allowAdAuction, allowFencedFrame: exports.allowFencedFrame };

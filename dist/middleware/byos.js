@@ -46,3 +46,7 @@ function scoringSignalsHandler(handler) {
     };
 }
 exports.scoringSignalsHandler = scoringSignalsHandler;
+exports.default = {
+    biddingSignalsHandler: biddingSignalsHandler,
+    scoringSignalsHandler: scoringSignalsHandler
+};

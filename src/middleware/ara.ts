@@ -38,3 +38,8 @@ export function onRegisterTrigger(handler: ARARegisterTriggerHandler, opts: { lo
         next();
     };
 }
+
+export default {
+    onRegisterSource,
+    onRegisterTrigger
+}

@@ -54,3 +54,7 @@ export function scoringSignalsHandler(handler: ScoringSignalsHandler) {
     };
 }
 
+export default {
+    biddingSignalsHandler,
+    scoringSignalsHandler
+};

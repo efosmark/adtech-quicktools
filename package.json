@@ -19,6 +19,8 @@
     "dist",
     "src"
   ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "typings": "src/types",
   "repository": {
     "type": "git",

@@ -41,3 +41,8 @@ export const createPolicy = (policy: PermissionsPolicy) => {
         }
     }
 }
+
+
+export default {
+    createPolicy
+};
