@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scoringSignalsHandler = exports.biddingSignalsHandler = void 0;
+exports.biddingSignalsHandler = biddingSignalsHandler;
+exports.scoringSignalsHandler = scoringSignalsHandler;
 var HEADER_KV_FORMAT_VERSION = 'X-Fledge-Bidding-Signals-Format-Version';
 function biddingSignalsHandler(handler) {
     return function (req, res, next) {
@@ -21,7 +22,6 @@ function biddingSignalsHandler(handler) {
         next();
     };
 }
-exports.biddingSignalsHandler = biddingSignalsHandler;
 function scoringSignalsHandler(handler) {
     return function (req, res, next) {
         var _a, _b, _c;
@@ -45,7 +45,6 @@ function scoringSignalsHandler(handler) {
         next();
     };
 }
-exports.scoringSignalsHandler = scoringSignalsHandler;
 exports.default = {
     biddingSignalsHandler: biddingSignalsHandler,
     scoringSignalsHandler: scoringSignalsHandler

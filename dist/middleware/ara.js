@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onRegisterTrigger = exports.onRegisterSource = void 0;
+exports.onRegisterSource = onRegisterSource;
+exports.onRegisterTrigger = onRegisterTrigger;
 var HEADER_ARA_ELIGIBLE = 'Attribution-Reporting-Eligible';
 var HEADER_ARA_REGISTER_SOURCE = 'Attribution-Reporting-Register-Source';
 var HEADER_ARA_REGISTER_TRIGGER = 'Attribution-Reporting-Register-Trigger';
@@ -19,7 +20,6 @@ function onRegisterSource(handler, opts) {
         next();
     };
 }
-exports.onRegisterSource = onRegisterSource;
 function onRegisterTrigger(handler, opts) {
     return function (req, res, next) {
         var eligibility = req.get(HEADER_ARA_ELIGIBLE);
@@ -35,7 +35,6 @@ function onRegisterTrigger(handler, opts) {
         next();
     };
 }
-exports.onRegisterTrigger = onRegisterTrigger;
 exports.default = {
     onRegisterSource: onRegisterSource,
     onRegisterTrigger: onRegisterTrigger

@@ -13,13 +13,6 @@ const serializePermissionPolicy = (data: Record<string, string | undefined>): st
     .map(k => `${k}=(${data[k]})`)
     .join(', ');
 
-interface PermissionsPolicy {
-    runAdAuction?: string;
-    privateAggregation?: string;
-    joinAdInterestGroup?: string;
-    fencedUnpartitionedStorageRead?: string;
-}
-
 export const createPolicy = (policy: PermissionsPolicy) => {
     return (req: Request, res: Response, next: NextFunction): void => {
         res.setHeader(HEADER_PERMISSIONS_POLICY, serializePermissionPolicy({
