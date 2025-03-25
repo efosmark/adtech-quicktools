@@ -4,13 +4,13 @@ import path from 'path';
 import { Request, Response, NextFunction } from 'express';
 
 
-import { createPolicy } from '../middleware/permissions';
-import { allowAdAuction, allowFencedFrame } from '../middleware/enablements';
+import { createPolicy } from './middleware/permissions';
+import { allowAdAuction, allowFencedFrame } from './middleware/enablements';
 import serveApp from './serveApp';
-import favicon from '../middleware/favicon';
-import { biddingSignalsHandler, scoringSignalsHandler } from '../middleware/byos';
-import socketLogger from '../middleware/socketLogger';
-import { enableCORS } from '../middleware/cors';
+import favicon from './middleware/favicon';
+import { biddingSignalsHandler, scoringSignalsHandler } from './middleware/byos';
+import socketLogger from './middleware/socketLogger';
+import { enableCORS } from './middleware/cors';
 
 morgan.token('host', (req: Request) => req.get('host') || 'unknown-host');
 const logger = morgan(':status :method :host :url');

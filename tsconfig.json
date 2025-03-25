@@ -17,6 +17,7 @@
         "src/**/*.d.ts",
         "src/web-server/**/*.ts",
         "src/middleware/**/*.ts",
+        "src/serveApp.ts",
     ],
     "typeRoots": [
         "src/**/*.d.ts",
