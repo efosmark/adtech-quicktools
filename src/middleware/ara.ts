@@ -5,8 +5,15 @@ const HEADER_ARA_REGISTER_SOURCE = 'Attribution-Reporting-Register-Source';
 const HEADER_ARA_REGISTER_TRIGGER = 'Attribution-Reporting-Register-Trigger';
 
 export type ARARegisterSourceHandler = (req: Request, res: Response) => AttributionSource | null;
-export type ARARegisterTriggerHandler = (req: Request, res: Response) => AttributionSource | null;
+export type ARARegisterTriggerHandler = (req: Request, res: Response) => AttributionTrigger | null;
 
+
+/**
+ * Build an Express-compatible middleware for handling source registration.
+ * 
+ * @param handler ARARegisterSourceHandler Handler gets executed when getting a request to register a source.
+ * @param opts (Optional) { logRequests: boolean } 
+ */
 export function onRegisterSource(handler: ARARegisterSourceHandler, opts: { logRequests: boolean } | null) {
     return (req: Request, res: Response, next: NextFunction): void => {
         const eligibility = req.get(HEADER_ARA_ELIGIBLE);
