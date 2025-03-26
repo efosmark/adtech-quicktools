@@ -6,7 +6,7 @@ import enablements from './middleware/enablements';
 import favicon from './middleware/favicon';
 import permissions from './middleware/permissions';
 import socketLogger from './middleware/socketLogger';
-
+import serveApp from './serveApp';
 
 
 export default {
@@ -17,4 +17,5 @@ export default {
     favicon,
     permissions,
     socketLogger,
+    serveApp
 }

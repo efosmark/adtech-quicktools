@@ -1,29 +1,17 @@
 {
     "compilerOptions": {
-        "target": "ES5",
         "outDir": "dist",
         "rootDir": "src",
-        "lib": [
-            "DOM",
-            "ES6",
-        ],
-        "types": [
-            "node"
-        ],
-        "declaration": true,
+        "composite": true, // Required for some monorepo setups
+        "moduleResolution": "node",
+        "target": "ES2020",
+        "module": "ESNext",
         "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true
     },
     "include": [
-        "src/index.ts",
-        "src/**/*.d.ts",
-        "src/web-server/**/*.ts",
-        "src/middleware/**/*.ts",
-        "src/serveApp.ts",
-    ],
-    "typeRoots": [
-        "src/**/*.d.ts",
-        "node_modules/@types/**/*.d.ts"
+        "src"
     ],
     "exclude": [
         "node_modules"

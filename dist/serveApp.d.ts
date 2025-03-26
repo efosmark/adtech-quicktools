@@ -1,7 +1,7 @@
 import https from 'https';
 import express from 'express';
 type AppBuildCallback = (app: express.Express, cfg: Partial<AppConfig>) => express.Express;
-interface AppConfig {
+export interface AppConfig {
     port: number;
     hostname: string;
     key: string;

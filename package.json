@@ -4,12 +4,15 @@
   "description": "Tools for modern AdTech proof-of-concepts.",
   "scripts": {
     "test": "jest",
-    "build": "tsc && npm run bundle-dts",
-    "bundle-dts": "dts-bundle-generator -o dist/index.d.ts 'src/**/*.ts'"
+    "build": "tsc && npm run copy-types",
+    "copy-types": "cp -r src/types dist/types",
+    "start:server": "esr src/web-server/server.ts"
   },
   "author": "efosmark",
   "license": "ISC",
   "dependencies": {
+    "esbuild": "^0.25.1",
+    "esbuild-runner": "^2.2.2",
     "express": "^4.21.2",
     "jest": "^29.7.0",
     "rollup": "^4.24.3",
@@ -21,8 +24,7 @@
     "src"
   ],
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "src/types",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/efosmark/adtech-quicktools.git"

@@ -19,5 +19,6 @@ declare const _default: {
         createPolicy: (policy: PermissionsPolicy) => (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => void;
     };
     socketLogger: (httpsServer?: import("https").Server) => (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => void;
+    serveApp: ({ port, hostname, app, buildApp, key, cert, httpsServer }: import("./serveApp").AppConfig) => import("https").Server<typeof import("http").IncomingMessage, typeof import("http").ServerResponse>;
 };
 export default _default;
