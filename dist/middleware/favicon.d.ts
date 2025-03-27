@@ -5,3 +5,4 @@ import { Request, Response, NextFunction } from 'express';
  */
 declare const _default: (faviconLetters: string) => (req: Request, res: Response, next: NextFunction) => void;
 export default _default;
+//# sourceMappingURL=favicon.d.ts.map

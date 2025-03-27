@@ -1,0 +1,1 @@
+{"version":3,"file":"socketLogger.d.ts","sourceRoot":"","sources":["../../src/middleware/socketLogger.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAE1D,OAAO,KAAK,MAAM,OAAO,CAAC;yBAmBV,cAAc,KAAK,CAAC,MAAM,MAI9B,KAAK,OAAO,EAAE,KAAK,QAAQ,EAAE,MAAM,YAAY,KAAG,IAAI;AAJlE,wBAgBE"}

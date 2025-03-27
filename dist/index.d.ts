@@ -1,3 +1,4 @@
+import serve from './serve';
 declare const _default: {
     ara: {
         onRegisterSource: typeof import("./middleware/ara").onRegisterSource;
@@ -16,9 +17,10 @@ declare const _default: {
     };
     favicon: (faviconLetters: string) => (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => void;
     permissions: {
-        createPolicy: (policy: PermissionsPolicy) => (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => void;
+        createPolicy: (policy: import("./middleware/permissions").PermissionsPolicy) => (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => void;
     };
     socketLogger: (httpsServer?: import("https").Server) => (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => void;
-    serveApp: ({ port, hostname, app, buildApp, key, cert, httpsServer }: import("./serveApp").AppConfig) => import("https").Server<typeof import("http").IncomingMessage, typeof import("http").ServerResponse>;
+    serve: typeof serve;
 };
 export default _default;
+//# sourceMappingURL=index.d.ts.map

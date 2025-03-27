@@ -1,2 +1,5 @@
 ssl/
 node_modules/
+*.tsbuildinfo
+*.pem
+.vscode/

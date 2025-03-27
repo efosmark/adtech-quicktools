@@ -8,6 +8,7 @@ const serializePermissionPolicy = (data) => Object.keys(data)
     .filter(k => data[k] !== undefined)
     .map(k => `${k}=(${data[k]})`)
     .join(', ');
+;
 export const createPolicy = (policy) => {
     return (req, res, next) => {
         res.setHeader(HEADER_PERMISSIONS_POLICY, serializePermissionPolicy({

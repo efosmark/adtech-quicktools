@@ -4,8 +4,10 @@
   "description": "Tools for modern AdTech proof-of-concepts.",
   "scripts": {
     "test": "jest",
-    "build": "tsc && npm run copy-types",
-    "copy-types": "cp -r src/types dist/types",
+    "build": "npm run clean && mkdir -p dist/ && npm run tsc && npm run copy-types",
+    "tsc": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist/",
+    "copy-types": "cp -r src/types/* dist/",
     "start:server": "esr src/web-server/server.ts"
   },
   "author": "efosmark",
@@ -20,8 +22,7 @@
     "ws": "^8.18.1"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

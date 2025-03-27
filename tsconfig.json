@@ -2,7 +2,8 @@
     "compilerOptions": {
         "outDir": "dist",
         "rootDir": "src",
-        "composite": true, // Required for some monorepo setups
+        "declaration": true,
+        "declarationMap": true,
         "moduleResolution": "node",
         "target": "ES2020",
         "module": "ESNext",
