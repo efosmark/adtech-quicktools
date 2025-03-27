@@ -1,62 +1,99 @@
 import { Request, Response, NextFunction } from 'express';
 
 export interface AttributionSource {
-
-    // Unique ID for the attribution source. Limit 64 bytes.
+    /**
+     * Required. The ID of the source event.
+     * This typically represents the ad or campaign that generated the source.
+     */
     source_event_id: string;
 
-    // The destination site where conversions are expected
-    destination: string;
+    /**
+     * Optional. The priority of the source.
+     * Higher priority sources may be preferred during attribution.
+     */
+    priority?: number;
 
-    // The endpoint to receive attribution reports
-    //reporting_origin: string;
-
-    // Type of the source: navigation (click) or event (view)
-    source_type?: "navigation" | "event";
-
-    // Time in seconds before the source expires (default: 30 days)
+    /**
+     * Optional. Expiration time for the source in seconds.
+     * Defaults to a maximum of 30 days if not specified.
+     */
     expiry?: number;
 
-    // Determines priority for matching conversions
-    priority?: number;
-
-    // Key-value pairs for filtering reports
-    filter_data?: Record<string, string[]>;
-
-    // Defines keys for aggregated reporting
-    aggregation_keys?: Record<string, string>;
-
-    // Debugging key for testing
-    debug_key?: string;
-}
-
-
-
-export interface AttributionTrigger {
-    /** Data associated with the conversion event. Limited to 8 bytes. */
-    trigger_data: string;
-
-    /** The destination site where the conversion occurred */
+    /**
+     * Required. The destination for the attribution.
+     * This is usually the advertiser's domain where conversions are tracked.
+     */
     destination: string;
 
-    /** The endpoint to receive attribution reports */
-    reporting_origin: string;
+    /**
+     * Optional. Event-level reporting metadata.
+     * Allows providing additional contextual information for event-level reports.
+     */
+    event_report_window?: number;
 
-    /** Determines priority for matching conversions (optional) */
+    /**
+     * Optional. Aggregatable report metadata.
+     * Provides additional metadata for aggregate-level reporting.
+     */
+    aggregate_report_window?: number;
+
+    /**
+     * Optional. Filters for limiting source registration.
+     * These can include specific conditions like user properties or device types.
+     */
+    filter_data?: Record<string, string[]>;
+
+    /**
+     * Optional. Debugging information.
+     * Typically used for diagnosing attribution reports during testing.
+     */
+    debug_key?: number;
+}
+
+export interface AttributionTrigger {
+    /**
+     * Required. The ID of the trigger event.
+     * This identifies the specific conversion event for attribution.
+     */
+    trigger_event_id: string;
+
+    /**
+     * Optional. Priority value to determine the importance of the trigger.
+     * Higher values indicate higher priority.
+     */
     priority?: number;
 
-    /** Key-value pairs for filtering reports (optional) */
-    filters?: Record<string, string[]>;
+    /**
+     * Optional. Specifies a delay before reporting the trigger.
+     * Measured in seconds.
+     */
+    report_delay?: number;
 
-    /** Key-value pairs to exclude from reporting (optional) */
-    not_filters?: Record<string, string[]>;
+    /**
+     * Required. The destination associated with the conversion.
+     * Typically the advertiser's domain that should receive attribution reports.
+     */
+    destination: string;
 
-    /** Defines keys for aggregated reporting (optional) */
-    aggregation_keys?: Record<string, string>;
+    /**
+     * Optional. Aggregatable report data.
+     * Provides additional data for aggregate-level reports.
+     */
+    aggregatable_report_data?: Record<string, number>;
 
-    /** Debugging key for testing (optional) */
-    debug_key?: string;
+    /**
+     * Optional. Filters to specify which sources are eligible for attribution.
+     * Allows specifying criteria like campaign types or specific user groups.
+     */
+    filter_data?: Record<string, string[]>;
+
+    /**
+     * Optional. Debugging key for testing and verification.
+     * Used to facilitate debugging during development.
+     */
+    debug_key?: number;
 }
+
 
 export type RegisterSourceHandler = (eligibility: string[], req: Request, res: Response) => AttributionSource | void;
 export type RegisterTriggerHandler = (eligibility: string[], req: Request, res: Response) => AttributionTrigger | void;
@@ -80,9 +117,6 @@ export function onRegisterSource(handler: RegisterSourceHandler) {
             const response = handler(eligibility, req, res);
             if (response) {
                 res.setHeader(HEADER_ARA_REGISTER_SOURCE, JSON.stringify(response));
-                // Since we're handling this event, we want to prevent subsequent middlewares from
-                // overwriting our header.
-                delete req.headers[HEADER_ARA_ELIGIBLE];
             }
         } else if (eligibility) {
             console.error(`[onRegisterSource] Unknown eligibility request value: ${eligibility}`)
