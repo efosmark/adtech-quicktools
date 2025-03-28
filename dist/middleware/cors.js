@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.enableCORS = void 0;
 const HEADER_CORS = "Access-Control-Allow-Origin";
 const HEADER_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 const HEADER_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
@@ -6,7 +9,7 @@ const HEADER_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
  * If the request has an "Origin" header, it will bounce that back as the
  * allowed origin.
  */
-export const enableCORS = (req, res, next) => {
+const enableCORS = (req, res, next) => {
     const origin = req.get("Origin");
     if (origin) {
         res.setHeader(HEADER_CORS, origin);
@@ -18,4 +21,5 @@ export const enableCORS = (req, res, next) => {
     }
     next();
 };
-export default { enableCORS };
+exports.enableCORS = enableCORS;
+exports.default = { enableCORS: exports.enableCORS };

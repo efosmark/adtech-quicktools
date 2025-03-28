@@ -1,8 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Dynamically generates a svg file that can act as a favicon.
  * Completely unnecessary but I like to be able to have distinct favicons in the tabs per-site.
  */
-export default (faviconLetters) => {
+exports.default = (faviconLetters) => {
     return (req, res, next) => {
         if (req.method === 'GET' && req.path === '/favicon.ico') {
             res.writeHead(200, { 'Content-Type': 'image/svg+xml' });

@@ -1,5 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.biddingSignalsHandler = biddingSignalsHandler;
+exports.scoringSignalsHandler = scoringSignalsHandler;
 const HEADER_KV_FORMAT_VERSION = 'X-Fledge-Bidding-Signals-Format-Version';
-export function biddingSignalsHandler(handler) {
+function biddingSignalsHandler(handler) {
     return (req, res, next) => {
         const hostnameParam = req.query.hostname?.toString() || '';
         const keysParam = req.query.hostname?.toString() || '';
@@ -17,7 +21,7 @@ export function biddingSignalsHandler(handler) {
         next();
     };
 }
-export function scoringSignalsHandler(handler) {
+function scoringSignalsHandler(handler) {
     return (req, res, next) => {
         const renderUrls = req.query.renderUrls?.toString() || '';
         const experimentGroupId = req.query.experimentGroupId?.toString() || '';
@@ -39,7 +43,7 @@ export function scoringSignalsHandler(handler) {
         next();
     };
 }
-export default {
+exports.default = {
     biddingSignalsHandler,
     scoringSignalsHandler
 };

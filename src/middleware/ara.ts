@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import { Dictionary, isInnerList, Item, List, parseDictionary, Token } from 'structured-headers';
+
 
 export interface AttributionSource {
     /**
@@ -76,6 +78,12 @@ export interface AttributionTrigger {
     destination: string;
 
     /**
+     * Optional. Data associated with the trigger event.
+     * This can include additional information relevant to the conversion.
+     */
+    trigger_data?: string;
+
+    /**
      * Optional. Aggregatable report data.
      * Provides additional data for aggregate-level reports.
      */
@@ -98,9 +106,16 @@ export interface AttributionTrigger {
 export type RegisterSourceHandler = (eligibility: string[], req: Request, res: Response) => AttributionSource | void;
 export type RegisterTriggerHandler = (eligibility: string[], req: Request, res: Response) => AttributionTrigger | void;
 
-const HEADER_ARA_ELIGIBLE = 'Attribution-Reporting-Eligible';
-const HEADER_ARA_REGISTER_SOURCE = 'Attribution-Reporting-Register-Source';
-const HEADER_ARA_REGISTER_TRIGGER = 'Attribution-Reporting-Register-Trigger';
+export const HEADER_ARA_ELIGIBLE = 'Attribution-Reporting-Eligible';
+export const HEADER_ARA_REGISTER_SOURCE = 'Attribution-Reporting-Register-Source';
+export const HEADER_ARA_REGISTER_TRIGGER = 'Attribution-Reporting-Register-Trigger';
+
+
+function structuredItemsOfValue(dict: Dictionary, values: string[]) {
+    return [...dict.keys()].filter(i => {
+        return values.indexOf(i.toString()) > -1;
+    });
+}
 
 /**
  * Build an Express-compatible middleware for handling source registration.
@@ -112,14 +127,20 @@ export function onRegisterSource(handler: RegisterSourceHandler) {
     return (req: Request, res: Response, next: NextFunction): void => {
         if (!req.get(HEADER_ARA_ELIGIBLE) || req.get(HEADER_ARA_ELIGIBLE).indexOf('-source') === -1) return next();
 
-        const eligibility = req.get(HEADER_ARA_ELIGIBLE).split(',').map(v => v.trim());
-        if (eligibility.includes('event-source') || eligibility.includes('navigation-source')) {
-            const response = handler(eligibility, req, res);
-            if (response) {
-                res.setHeader(HEADER_ARA_REGISTER_SOURCE, JSON.stringify(response));
+        console.debug(`[onRegisterSource] HEADER=${req.get(HEADER_ARA_ELIGIBLE)}`)
+        try {
+            const eligibility = parseDictionary(req.get(HEADER_ARA_ELIGIBLE));
+            const sourceItems = structuredItemsOfValue(eligibility, ["event-source", "navigation-source"]);
+            if (sourceItems.length > 0) {
+                const response = handler(sourceItems, req, res);
+                if (response) {
+                    res.setHeader(HEADER_ARA_REGISTER_SOURCE, JSON.stringify(response));
+                }
+            } else if (eligibility) {
+                console.error(`[onRegisterSource] Unknown eligibility request value: ${eligibility}`)
             }
-        } else if (eligibility) {
-            console.error(`[onRegisterSource] Unknown eligibility request value: ${eligibility}`)
+        } catch (e) {
+            console.error(e);
         }
         next();
     };
@@ -127,16 +148,22 @@ export function onRegisterSource(handler: RegisterSourceHandler) {
 
 export function onRegisterTrigger(handler: RegisterTriggerHandler) {
     return (req: Request, res: Response, next: NextFunction): void => {
-        if (!req.get(HEADER_ARA_ELIGIBLE) || req.get(HEADER_ARA_ELIGIBLE).indexOf('-trigger') === -1) return next();
+        if (!req.get(HEADER_ARA_ELIGIBLE) || req.get(HEADER_ARA_ELIGIBLE).indexOf('trigger') === -1) return next();
+        console.debug(`[onRegisterTrigger] HEADER=${req.get(HEADER_ARA_ELIGIBLE)}`)
 
-        const eligibility = req.get(HEADER_ARA_ELIGIBLE).split(',').map(v => v.trim());;
-        if (eligibility.includes('event-trigger')) {
-            const response = handler(eligibility, req, res);
-            if (response) {
-                res.setHeader(HEADER_ARA_REGISTER_TRIGGER, JSON.stringify(response));
+        try {
+            const eligibility = parseDictionary(req.get(HEADER_ARA_ELIGIBLE));
+            const triggerItems = structuredItemsOfValue(eligibility, ["trigger", "event-trigger"]);
+            if (triggerItems.length > 0) {
+                const response = handler(triggerItems, req, res);
+                if (response) {
+                    res.setHeader(HEADER_ARA_REGISTER_TRIGGER, JSON.stringify(response));
+                }
+            } else if (eligibility) {
+                console.error(`[onRegisterTrigger] Unknown eligibility request value: ${eligibility}`)
             }
-        } else if (eligibility) {
-            console.error(`[onRegisterTrigger] Unknown eligibility request value: ${eligibility}`)
+        } catch (e) {
+            console.error(e);
         }
         next();
     };

@@ -1,14 +1,21 @@
-import fs from 'fs';
-import { spawnSync, execSync } from 'child_process';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tryAddHostEntry = tryAddHostEntry;
+exports.setupCertificate = setupCertificate;
+const fs_1 = __importDefault(require("fs"));
+const child_process_1 = require("child_process");
 /**
  * Create a record "127.0.0.1 hostname" to the /etc/hosts.
  * Will ask for admin password via sudo when appending.
  *
  * @param host The hostname we wish to add
  */
-export function tryAddHostEntry(host) {
+function tryAddHostEntry(host) {
     const entry = `127.0.0.1 ${host}\n::1 ${host}\n`;
-    const sudo = spawnSync('sudo', ['tee', '-a', '/etc/hosts'], {
+    const sudo = (0, child_process_1.spawnSync)('sudo', ['tee', '-a', '/etc/hosts'], {
         input: entry,
         stdio: ['pipe', 'inherit', 'inherit']
     });
@@ -30,7 +37,7 @@ export function tryAddHostEntry(host) {
 function updateHostsFile(host) {
     let hostsFile;
     try {
-        hostsFile = fs.readFileSync('/etc/hosts', 'utf8');
+        hostsFile = fs_1.default.readFileSync('/etc/hosts', 'utf8');
     }
     catch (err) {
         console.warn(`[updateHostsFile] Warning: Could not read /etc/hosts.\n${err}`);
@@ -54,11 +61,11 @@ function updateHostsFile(host) {
  * @param certKeyPath Path of the key .pem file
  * @param host Hostname for the TLS certificate
  */
-export function setupCertificate(certPemPath, certKeyPath, host) {
-    const certMissing = !fs.existsSync(certPemPath) || !fs.existsSync(certKeyPath);
+function setupCertificate(certPemPath, certKeyPath, host) {
+    const certMissing = !fs_1.default.existsSync(certPemPath) || !fs_1.default.existsSync(certKeyPath);
     if (certMissing) {
         console.log(`[setupCertificate] Certificates not found. Generating via mkcert...`);
-        execSync(`mkcert -install -cert-file "${certPemPath}" -key-file "${certKeyPath}" "${host}" localhost 127.0.0.1 ::1`, { stdio: 'inherit' });
+        (0, child_process_1.execSync)(`mkcert -install -cert-file "${certPemPath}" -key-file "${certKeyPath}" "${host}" localhost 127.0.0.1 ::1`, { stdio: 'inherit' });
         console.log(`[setupCertificate] Certificates created: ${certPemPath}, ${certKeyPath}`);
     }
     else {

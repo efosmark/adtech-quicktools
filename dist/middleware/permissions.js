@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createPolicy = void 0;
 const HEADER_PERMISSIONS_POLICY = "Permissions-Policy";
 const PATH_DOT_IG_PERMISSIONS = '/.well-known/interest-group/permissions';
 const POLICY_RUN_AD_AUCTION = "run-ad-auction";
@@ -9,7 +12,7 @@ const serializePermissionPolicy = (data) => Object.keys(data)
     .map(k => `${k}=(${data[k]})`)
     .join(', ');
 ;
-export const createPolicy = (policy) => {
+const createPolicy = (policy) => {
     return (req, res, next) => {
         res.setHeader(HEADER_PERMISSIONS_POLICY, serializePermissionPolicy({
             [POLICY_RUN_AD_AUCTION]: policy.runAdAuction,
@@ -30,6 +33,7 @@ export const createPolicy = (policy) => {
         }
     };
 };
-export default {
-    createPolicy
+exports.createPolicy = createPolicy;
+exports.default = {
+    createPolicy: exports.createPolicy
 };

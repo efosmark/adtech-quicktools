@@ -1,7 +1,9 @@
-import { WebSocketServer } from "ws";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const ws_1 = require("ws");
 const createSocketServer = (httpsServer, opts) => {
     const clients = new Set();
-    const server = new WebSocketServer({ server: httpsServer, ...opts });
+    const server = new ws_1.WebSocketServer({ server: httpsServer, ...opts });
     server.on('connection', (socket) => {
         socket.on('close', () => clients.delete(socket));
         clients.add(socket);
@@ -13,7 +15,7 @@ const createSocketServer = (httpsServer, opts) => {
     console.debug("Socket server is waiting for connections...");
     return { server, clients, sendToAll };
 };
-export default (httpsServer) => {
+exports.default = (httpsServer) => {
     const socketServer = createSocketServer(httpsServer);
     // Return a middleware compatible with express
     return (req, res, next) => {
